@@ -1,8 +1,7 @@
 import java.net.*;
 import java.io.*;
 
-class SendThread implements Runnable{
-    Thread t;
+class SendThread {
 
     Socket socket = null;
     InetAddress ipAddress;
@@ -10,6 +9,21 @@ class SendThread implements Runnable{
 
     DataOutputStream outStream;
 
+    /*
+     * SendThread()
+     * 
+     * Description: Constructor
+     * 
+     * Arguments:
+     *   N/A
+     * 
+     * Returns:
+     *   N/A 
+     * 
+     * Notes:
+     *   N/A
+     *
+     */
     SendThread(String ip, int port) {  
         try {
             this.setIpAddress(ip);
@@ -26,34 +40,6 @@ class SendThread implements Runnable{
         } catch (IOException e) { e.printStackTrace(); }
     }
 
-//////
-//
-//
-// THREAD METHODS
-//
-//
-//////
-
-    public void run() {
-        System.out.println("Connecting to IP Address: "+this.getSocketIpAddress());
-        System.out.println("Connecting on Port: "+this.getSocketPort());
-
-        try {
-            this.send("HELLO WORLD!!!");
-        } catch(IOException e) { e.printStackTrace(); }
-
-    }
-
-    public void start() {
-       if (this.t == null) {
-            this.t = new Thread(this, "SendThread");
-            this.t.start();
-        }
-    }
-
-    public void join() throws InterruptedException {
-        this.t.join();
-    }
 
 //////
 //
@@ -63,10 +49,41 @@ class SendThread implements Runnable{
 //
 //////
 
+    /*
+     * CreateSocket()
+     * 
+     * Description: Generates a Socket connecting to the given IP Address and
+     *      port
+     * 
+     * Arguments:
+     *   N/A
+     * 
+     * Returns:
+     *   N/A 
+     * 
+     * Notes:
+     *   N/A
+     *
+     */
     private void createSocket() throws UnknownHostException, IOException {
         this.socket = new Socket(this.getIpAddress(), this.getPort());
     }
 
+    /*
+     * createDataOutputStream()
+     * 
+     * Description: Creates a DataOutputStream object via the given socket
+     * 
+     * Arguments:
+     *   N/A
+     * 
+     * Returns:
+     *   N/A 
+     * 
+     * Notes:
+     *   N/A
+     *
+     */
     private void createDataOutputStream() throws IOException, NullPointerException {
         if (this.getSocket() != null) {
             this.outStream = new DataOutputStream(this.getSocket().getOutputStream());
@@ -75,7 +92,23 @@ class SendThread implements Runnable{
         }
     }
 
+    /*
+     * send()
+     * 
+     * Description: Sends a message via the DataOutputStream object
+     * 
+     * Arguments:
+     *   N/A
+     * 
+     * Returns:
+     *   N/A 
+     * 
+     * Notes:
+     *   N/A
+     *
+     */
     public void send(String msg) throws IOException, NullPointerException {
+
 
         if (this.getDataOutputStream() != null) {
             this.getDataOutputStream().writeUTF(msg);
@@ -96,14 +129,61 @@ class SendThread implements Runnable{
 //
 //////
 
+    /*
+     * setIpAddress()
+     * 
+     * Description: Creates an InetAddress object from a String containing an 
+     *      IPv4 IP Address
+     * 
+     * Arguments:
+     *   String - address - String version of an IPv4 IP Address
+     * 
+     * Returns:
+     *   N/A 
+     * 
+     * Notes:
+     *   N/A
+     *
+     */
     private void setIpAddress(String address) throws UnknownHostException  {
         this.ipAddress = InetAddress.getByName(address);
     }
 
+    /*
+     * getIpAddress
+     * 
+     * Description: Getter function for this.ipAddress
+     * 
+     * Arguments:
+     *   N/A
+     * 
+     * Returns:
+     *   InetAddress - this.ipAddress
+     * 
+     * Notes:
+     *   N/A
+     *
+     */
     private InetAddress getIpAddress() {
         return this.ipAddress;
     }
 
+    /*
+     * getSocketIpAddress
+     * 
+     * Description: Returns a reference to the IP Address of the server 
+     *      connected to by the socket
+     * 
+     * Arguments:
+     *   N/A
+     * 
+     * Returns:
+     *   InetAddress - IP Address of the server
+     * 
+     * Notes:
+     *   N/A
+     *
+     */
     public InetAddress getSocketIpAddress() throws NullPointerException { 
         if (this.getSocket() != null) {
             return this.getSocket().getInetAddress(); 
@@ -112,6 +192,21 @@ class SendThread implements Runnable{
         }
     }
 
+    /*
+     * setPort()
+     * 
+     * Description: Validates and sets the port number of the server
+     * 
+     * Arguments:
+     *   int - port - port number (0 <= port <= 65535)
+     * 
+     * Returns:
+     *   N/A 
+     * 
+     * Notes:
+     *   N/A
+     *
+     */
     private void setPort(int port) {
         if (port >= 0 && port <= 65535) {
             this.port = port;
@@ -122,10 +217,40 @@ class SendThread implements Runnable{
         }
     }
 
+    /*
+     * getPort()
+     * 
+     * Description: Returns the port number to contact the server at
+     * 
+     * Arguments:
+     *   N/A
+     * 
+     * Returns:
+     *   int - reference to the port number to contact the server at
+     * 
+     * Notes:
+     *   N/A
+     *
+     */
     private int getPort() {
         return this.port;
     }
 
+    /*
+     * getSocketPort()
+     * 
+     * Description: Returns the port number connected to by the Socket
+     * 
+     * Arguments:
+     *   N/A
+     * 
+     * Returns:
+     *   int - the port number connected to by the Socket
+     * 
+     * Notes:
+     *   N/A
+     *
+     */
     public int getSocketPort() throws NullPointerException { 
         if (this.getSocket() != null) {
             return this.getSocket().getPort(); 
@@ -134,25 +259,41 @@ class SendThread implements Runnable{
         }
     }
 
+    /*
+     * getSocket()
+     * 
+     * Description: Returns a reference to the Socket used by this object
+     * 
+     * Arguments:
+     *   N/A
+     * 
+     * Returns:
+     *   Socket - reference to the Socket used by this object
+     * 
+     * Notes:
+     *   N/A
+     *
+     */
     private Socket getSocket() { return this.socket; }
 
+    /*
+     * DataOutputStream()
+     * 
+     * Description: Returns a reference to the DataOutputStream used by
+     *      this object
+     * 
+     * Arguments:
+     *   N/A
+     * 
+     * Returns:
+     *   DataOutputStream -  reference to the DataOutputStream used by this 
+     *      object
+     * 
+     * Notes:
+     *   N/A
+     *
+     */
     private DataOutputStream getDataOutputStream() {
         return this.outStream;
-    }
-
-    public boolean isConnected() {
-        return this.getSocket().isBound();
-    }
-
-    public void waitForConnection() {        
-        while (true) {    
-            if (this.getSocket() != null) { 
-                break; 
-            }
-
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException f) { f.printStackTrace(); }
-        } 
     }
 }
