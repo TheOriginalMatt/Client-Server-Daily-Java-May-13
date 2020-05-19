@@ -3,7 +3,7 @@ import java.util.function.*;
 
 public class Messenger {
     public static void main(String args[]) {
-        RecieveThread recieve = new RecieveThread(6066, new Consume<String>());
+        RecieveThread recieve = new RecieveThread(6066, new Consume());
 
         System.out.println("Server at IP: " + recieve.getSocketIpAddress());
         //recieve.getServerSocket().getInetAddress());
@@ -24,8 +24,8 @@ public class Messenger {
     }
 }
 
-class Consume <T> implements Consumer<T>{
-    public void accept(T data) {
+class Consume implements Consumer<String>{
+    public void accept(String data) {
         System.out.println("Received: "+data);
     }
 }

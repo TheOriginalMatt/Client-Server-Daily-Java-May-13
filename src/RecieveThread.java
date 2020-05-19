@@ -14,7 +14,7 @@ class RecieveThread implements Runnable{
 
     private DataInputStream inStream;
 
-    private Consumer onRead;
+    private Consumer<String> onRead;
 
     /*
      * RecieveThread()
@@ -55,7 +55,7 @@ class RecieveThread implements Runnable{
      *   N/A
      *
      */ 
-    RecieveThread(int port, Consumer consumer) {
+    RecieveThread(int port, Consumer<String> consumer) {
         this.setPort(port);
         this.setConsumer(consumer);
         try {
@@ -391,7 +391,7 @@ class RecieveThread implements Runnable{
      *   N/A
      *
      */
-    public void setConsumer(Consumer consumer) {
+    public void setConsumer(Consumer<String> consumer) {
         this.onRead = consumer;
     }
 
@@ -410,7 +410,7 @@ class RecieveThread implements Runnable{
      *   N/A
      *
      */
-    public Consumer getConsumer() {
+    public Consumer<String> getConsumer() {
         if (this.onRead != null) {
             return this.onRead;
         } else {
