@@ -13,7 +13,7 @@ public class Messenger {
         recieve.start();
 
         
-        SendThread send = new SendThread("localhost", 6066);
+        SendThread send = new SendThread("192.168.1.13", 6066);
 
         try {
             send.send( "First message" );
