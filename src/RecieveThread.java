@@ -1,9 +1,11 @@
+package ClientServer;
+
 import java.net.*;
 import java.io.*;
 import java.util.function.*;
 
 
-class RecieveThread implements Runnable{
+public class RecieveThread implements Runnable{
     private Thread t;
     private String threadName;
 
@@ -31,7 +33,7 @@ class RecieveThread implements Runnable{
      *   N/A
      *
      */ 
-    RecieveThread(int port) {
+    public RecieveThread(int port) {
         this.setPort(port);
         try {
             this.createServerSocket();
@@ -55,7 +57,7 @@ class RecieveThread implements Runnable{
      *   N/A
      *
      */ 
-    RecieveThread(int port, Consumer<String> consumer) {
+    public RecieveThread(int port, Consumer<String> consumer) {
         this.setPort(port);
         this.setConsumer(consumer);
         try {

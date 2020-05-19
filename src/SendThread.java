@@ -1,7 +1,9 @@
+package ClientServer;
+
 import java.net.*;
 import java.io.*;
 
-class SendThread {
+public class SendThread {
 
     Socket socket = null;
     InetAddress ipAddress;
@@ -24,7 +26,7 @@ class SendThread {
      *   N/A
      *
      */
-    SendThread(String ip, int port) {  
+    public SendThread(String ip, int port) {  
         try {
             this.setIpAddress(ip);
         } catch (UnknownHostException e) { e.printStackTrace(); }
